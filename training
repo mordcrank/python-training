@@ -1,0 +1,8 @@
+zdravi = 100
+zasah = 25
+
+while zdravi > 0:
+    zdravi = zdravi - zasah
+    print("Au! Zbývá: " + str(zdravi))
+
+print("Padl jsem...")
