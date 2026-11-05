@@ -5,38 +5,55 @@ zasah = 24
 obvaz = True
 pocet_zasahu = 0
 
-
-má_vestu = True
-zivotnost_vesty = random.randint(1, 5)  
+ma_vestu = True
+zivotnost_vesty = random.randint(1, 5)
 print(f"Mám plátovou vestu! Vydrží {zivotnost_vesty} zásahů.")
+
+nepratele = ["odstřelovač", "kulometčík", "granátník"]
 
 while zdravi > 0:
     if random.randint(1, 4) == 1:
         print("Uhnul jsem!")
         continue
 
-    pocet_zasahu = pocet_zasahu + 1
+    pocet_zasahu += 1
+    strelec = random.choice(nepratele)
+    poskozeni = zasah
 
-    
-    if má_vestu and zivotnost_vesty > 0:
-        zivotnost_vesty = zivotnost_vesty - 1
-        print(f"Zásah do vesty! (Životnost vesty: {zivotnost_vesty})")
-        
-        
+    if strelec == "granátník" and random.randint(1, 5) == 1:
+        print("Béééé! Granátník místo granátu hodil kozu! Nic se nestalo.")
+        continue
+
+    if strelec == "odstřelovač":
+        if random.randint(1, 10) == 1:
+            print("!!! HEADSHOT !!!")
+            zdravi = 0
+            break
+        poskozeni = zasah * 2
+
+    do_tela = poskozeni
+
+    if ma_vestu and zivotnost_vesty > 0:
+        zivotnost_vesty -= 1
+        if strelec == "odstřelovač":
+            print(f"Odstřelovač prostřelil vestu! (Životnost vesty: {zivotnost_vesty})")
+        else:
+            print(f"{strelec} trefil vestu! (Životnost vesty: {zivotnost_vesty})")
+            do_tela = 0
+
         if zivotnost_vesty == 0:
             print("!!! Vesta se rozbila !!!")
-            má_vestu = False
-    else:
-        
-        zdravi = zdravi - zasah
+            ma_vestu = False
+
+    if do_tela > 0:
+        if zdravi - do_tela <= 0 and obvaz:
+            print("--- Tohle by mě zabilo! Na poslední chvíli používám lékárničku! ---")
+            zdravi = 100
+            obvaz = False
+
+        zdravi -= do_tela
         if zdravi < 0:
             zdravi = 0
-        print("Au! Zbývá zdraví: " + str(zdravi))
+        print(f"Au, {strelec}! Zbývá zdraví: {zdravi}")
 
-    
-    if zdravi <= 5 and zdravi > 0 and obvaz:
-        print("--- Používám lékárničku a jedu znova! ---")
-        zdravi = 100
-        obvaz = False
-
-print("Padl jsem... Schytal jsem " + str(pocet_zasahu) + " zásahů.")
+print(f"Padl jsem... Schytal jsem {pocet_zasahu} zásahů.")
