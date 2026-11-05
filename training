@@ -1,8 +1,15 @@
 zdravi = 100
-zasah = 25
+zasah = 24
+obvaz = True  
 
 while zdravi > 0:
     zdravi = zdravi - zasah
     print("Au! Zbývá: " + str(zdravi))
+
+    # Obváže se, pokud má 5 nebo méně HP a ještě obvaz nepoužil
+    if zdravi <= 5 and zdravi > 0 and obvaz:
+        print("--- Používám lékárničku a jedu znova! ---")
+        zdravi = 100
+        obvaz = False  
 
 print("Padl jsem...")
